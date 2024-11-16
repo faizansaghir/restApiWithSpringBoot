@@ -33,3 +33,11 @@ Repository to track development of RESTful web services
                 return "Hello World!";
             }
         } </pre><br>
+4. <strong>JSON Binding in SpringBoot</strong> <br>
+   &emsp;a. JSON Binding is also called Serialization/Deserialization or Mapping or Marshalling/ Unmarshalling. <br>
+   &emsp;b. It is process of converting JSON string to POJO and vice versa. <br>
+   &emsp;c. Jackson Project dependency is used to handle this conversion/ binding. <br>
+   &emsp;d. Jackson uses appropriate Getter and Setter methods thus the POJO should have these methods defined in POJO. <br>
+   &emsp;e. In Spring REST application, JSON binding is handled by Spring. <br>
+   &emsp;&emsp;-> Any JSON data being passed to REST controller will be converted to POJO. <br>
+   &emsp;&emsp;-> Any Java object being returned from REST Controller is converted to JSON. <br><br>
