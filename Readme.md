@@ -57,7 +57,7 @@ Repository to track development of RESTful web services
    
       }</pre> <br>
 6. <strong>Exception Handling in Spring REST Api</strong> <br>
-   ![Exception Handling](./img/exceptionhandling.PNG?raw=true "ExceptionHandling") <br><br>
+   ![Exception Handling](./img/exceptionHandling.PNG?raw=true "ExceptionHandling") <br><br>
    Steps for returning custom error response in Spring API: <br>
    &emsp;a. Create a custom error response class that will have all details related to error to send to client/caller. <br>
       <pre>Example:
