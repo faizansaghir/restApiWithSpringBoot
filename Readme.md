@@ -55,4 +55,75 @@ Repository to track development of RESTful web services
               return students.get(studentId);
           }
    
+      }</pre> <br>
+6. <strong>Exception Handling in Spring REST Api</strong> <br>
+   ![Exception Handling](./img/exceptionhandling.PNG?raw=true "ExceptionHandling") <br><br>
+   Steps for returning custom error response in Spring API: <br>
+   &emsp;a. Create a custom error response class that will have all details related to error to send to client/caller. <br>
+      <pre>Example:
+      public class StudentErrorResponse {
+          private int status;
+          private String message;
+          private long timestamp;
+         // Constructors, getters and setter defined 
       }</pre>
+   &emsp;b. Create a custom exception class for the exception we want to handle
+      <pre>Example:
+      public class StudentNotFoundException extends RuntimeException{
+         // Constructors of different types as per need
+      }</pre>
+   &emsp;c. Throw exception of required type from controller mapped method
+      <pre>Example:
+      @RestController
+      @RequestMapping("/api")
+      public class StudentRestController {
+         
+         @GetMapping("/students/{studentId}")
+         public Student getStudent(@PathVariable Integer studentId){
+           if(studentId>=students.size() || studentId<0)
+               throw new StudentNotFoundException("Student id not found - "+studentId);
+           return students.get(studentId);
+         }
+   
+      }</pre>
+   &emsp;d. Add exception handler using @ExceptionHandler annotated method. <br>
+   It can be inside any bean being managed by Spring but advised to be in class Annotated with @ControllerAdvice. <br>
+   <pre>Example: 
+         @RestController
+         @RequestMapping("/api")
+         public class StudentRestController {
+
+            @ExceptionHandler
+            public ResponseEntity&lt;StudentErrorResponse&gt; handleException(StudentNotFoundException exc){
+              StudentErrorResponse error = new StudentErrorResponse();
+            
+              error.setStatus(HttpStatus.NOT_FOUND.value());
+              error.setMessage(exc.getMessage());
+              error.setTimestamp(System.currentTimeMillis());
+            
+              return new ResponseEntity&lt;&gt;(error, HttpStatus.NOT_FOUND);
+            }
+   
+         }</pre> <br>
+7. <strong>@ExceptionHandler</strong> <br>
+   Annotation to tell Spring that a method is handler when a particular exception type is thrown at run-time. <br>
+   <pre>Example:
+      @RestController
+      @RequestMapping("/api")
+      public class StudentRestController {
+
+         @ExceptionHandler
+         public ResponseEntity&lt;StudentErrorResponse&gt; handleException(StudentNotFoundException exc){
+           StudentErrorResponse error = new StudentErrorResponse();
+         
+           error.setStatus(HttpStatus.NOT_FOUND.value());
+           error.setMessage(exc.getMessage());
+           error.setTimestamp(System.currentTimeMillis());
+         
+           return new ResponseEntity&lt;&gt;(error, HttpStatus.NOT_FOUND);
+         }
+   
+      }
+   
+      <em>Note: The above handler method handles the exception of type StudentNotFoundException</em>
+   </pre> <br>
