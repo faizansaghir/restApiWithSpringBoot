@@ -41,3 +41,18 @@ Repository to track development of RESTful web services
    &emsp;e. In Spring REST application, JSON binding is handled by Spring. <br>
    &emsp;&emsp;-> Any JSON data being passed to REST controller will be converted to POJO. <br>
    &emsp;&emsp;-> Any Java object being returned from REST Controller is converted to JSON. <br><br>
+5. <strong>@PathVariable</strong> <br>
+   Annotation to tell Spring that a parameter to a mapped controller method is a path parameter. <br>
+   The mapping annotation must have the path parameter placeholder in the path string. <br>
+   The path parameter placeholder and the parameter name should match. <br>
+   <pre>Example:
+      @RestController
+      @RequestMapping("/api")
+      public class StudentRestController {
+   
+          @GetMapping("/students/{studentId}")
+          public Student getStudent(@PathVariable Integer studentId){
+              return students.get(studentId);
+          }
+   
+      }</pre>
