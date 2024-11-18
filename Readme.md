@@ -87,7 +87,7 @@ Repository to track development of RESTful web services
    
       }</pre>
    &emsp;d. Add exception handler using @ExceptionHandler annotated method. <br>
-   It can be inside any bean being managed by Spring but advised to be in class Annotated with @ControllerAdvice. <br>
+   It can be inside a RestController class or ControllerAdvice(preferred and best-practice) class. <br>
    <pre>Example: 
          @RestController
          @RequestMapping("/api")
@@ -127,3 +127,29 @@ Repository to track development of RESTful web services
    
       <em>Note: The above handler method handles the exception of type StudentNotFoundException</em>
    </pre> <br>
+8. <strong>Global Exception Handling in Spring REST Api</strong> <br>
+   Exception handler defined inside a RestController class only handles exceptions for API of the Controller. <br>
+   To handle exception at global level, we can use an interceptor/filter. <br>
+   <strong>@ControllerAdvice</strong> <br>
+   Annotation to tell Spring that the annotated class is a component of type ControllerAdvice. <br>
+   It acts as an interceptor/filter and has following use: <br>
+   &emsp;a. Pre-process requests to controllers <br>
+   &emsp;b. Post-process responses to handle exceptions <br>
+   &emsp;c. Used for global exception handling <br>
+   ![Global Exception Handling](./img/globalExceptionHandling.PNG?raw=true "GlobalExceptionHandling") <br>
+   <pre>Example:
+      @ControllerAdvice
+      public class StudentRestExceptionHandler {
+      
+          @ExceptionHandler
+          public ResponseEntity&lt;StudentErrorResponse&gt; handleException(StudentNotFoundException exc){
+              StudentErrorResponse error = new StudentErrorResponse();
+      
+              error.setStatus(HttpStatus.NOT_FOUND.value());
+              error.setMessage(exc.getMessage());
+              error.setTimestamp(System.currentTimeMillis());
+      
+              return new ResponseEntity&lt;&gt;(error, HttpStatus.NOT_FOUND);
+          }
+      
+      }</pre> <br>
